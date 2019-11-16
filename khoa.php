@@ -63,7 +63,7 @@
                      while($row = mysqli_fetch_object($res_search))
                      {
                          echo '<tr>';
-                         echo '<td <a href="capnhat.php?='.$row->ma_lop.'">'.$row->ma_lop.'</td>';
+                         echo '<td><a href="capnhat.php?ma_lop='.$row->ma_lop.'">'.$row->ma_lop.'</a></td>';
                          echo '<td>'.$row->ten_lop.'</td>';
                          echo '<td>'.$row->si_so.'</td>';
                          echo '<td>'.$row->ten_khoa.'</td>';
