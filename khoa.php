@@ -5,6 +5,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Danh sách lớp theo tên Khoa</title>
+    <style>
+		table
+        {
+            background-color: #ccd9cf;
+
+        }
+        #headerTable
+        {
+            background-color: #2d9498;
+            text-align: center;
+        }
+        th
+        {
+            background-color: #2d9498;
+            text-align: center;
+        } 
+        #searchBtn
+        {
+                background-color: #f9f895;
+        }   
+	</style>
 </head>
 <body>
     <?php
@@ -12,7 +33,11 @@
     ?>
     <form action="" method="POST">
         <table align="center">
-            <h3 align="center">DANH SÁCH LỚP</h3>
+            <tr>
+            <th>
+                <h3 align="center">DANH SÁCH LỚP</h3>
+            </th>
+            </tr>
             <tr>
                 <td align="center">Khoa: <select name="ds_khoa" id="khoa">
                     <?php
@@ -39,6 +64,7 @@
             </tr>
             
         </table>
+        <br>
         <?php
             if(isset($_POST["searchBtn"]))
             {

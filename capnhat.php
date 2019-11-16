@@ -5,6 +5,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Cập nhật thông tin lớp</title>
+    <style>
+        table
+        {
+            background-color: #ccd9cf;
+
+        }
+        th
+        {
+            background-color: #2d9498;
+            text-align: center;
+        }
+        #updateBtn
+        {
+                background-color: #f9f895;
+        }
+    </style>
 </head>
 <body>
     <?php
@@ -57,8 +73,8 @@
             </td>
         </tr>
         <tr>
-        <td>Khoa: </td>
-            <td align="center"><select name="ds_khoa" id="khoa">
+        <!-- <td>Khoa: </td> -->
+            <td align="center" colspan="2">Khoa: <select name="ds_khoa" id="khoa">
                     <?php
                         $sql = "SELECT * FROM khoa ";
                         $result = mysqli_query($conn, $sql);
@@ -81,8 +97,8 @@
                     </select>
         </tr>
         <tr>
-            <td>Giảng viên: </td>
-        <td align="center"><select name="ds_gv" id="gv">
+            <!-- <td>Giảng viên: </td> -->
+        <td align="center" colspan="2">Giảng viên: <select name="ds_gv" id="gv">
                     <?php
                         $sql = "SELECT * FROM giangvien ";
                         $result = mysqli_query($conn, $sql);
@@ -108,6 +124,11 @@
         <tr>
             <td align="center" colspan="2">
                 <input type="submit" name="updateBtn" value="Cập nhật" id="updateBtn">
+            </td>
+        </tr>
+        <tr>
+            <td align="center" colspan="2">
+                <p align="center"><a href="khoa.php">Quay về</a></p>
             </td>
         </tr>
     </table>
