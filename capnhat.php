@@ -18,22 +18,16 @@
 
         $query = "SELECT * from lop WHERE ma_lop='".$ma_lop."'"; 
         
-        $ten_khach_hang = "";
-        $phai = 0;
-        $sdt = "";
-        $dia_chi = "";
-        $email = "";
+        $ten_lop = "";
+        $si_so = 0;
 
         $result = mysqli_query($conn, $query);
         if(mysqli_num_rows($result) > 0)
         {
             while($row = mysqli_fetch_object($result))
             {
-                $ten_khach_hang = $row->Ten_khach_hang;
-                $phai = $row->Phai;
-                $sdt = $row->Dien_thoai;
-                $dia_chi = $row->Dia_chi;
-                $email = $row->Email;
+                $ten_lop = $row->ten_lop;
+                $si_so = $row->si_so;
             }
         }
         mysqli_free_result($result);
@@ -42,44 +36,74 @@
     <form action="" method="POST">
     <table align="center">
         <tr>
-            <th align="center" colspan="2">CẬP NHẬT THÔNG TIN KHÁCH HÀNG</th>
+            <th align="center" colspan="2">CẬP NHẬT THÔNG TIN LỚP</th>
         </tr>
         <tr>
-            <td>Mã khách hàng</td>
+            <td>Mã lớp</td>
             <td>
-                <input type="text" name="ma_khach_hang_txt" value="<?php echo $ma_kh; ?>" disabled="disabled">
+                <input type="text" name="ma_lop_txt" value="<?php echo $ma_lop; ?>" disabled="disabled">
             </td>
         </tr>
         <tr>
-            <td>Tên khách hàng</td>
+            <td>Tên lớp</td>
             <td>
-                <input type="text" name="ten_khach_hang_txt" value="<?php echo $ten_khach_hang; ?>" required>
+                <input type="text" name="ten_lop_txt" value="<?php echo $ten_lop; ?>" required>
             </td>
         </tr>
         <tr>
-            <td>Phái</td>
+            <td>Sĩ số</td>
             <td>
-                <input type="radio" name="phai" value="0" <?php if($phai==0) echo 'checked' ?>>Nam
-                <input type="radio" name="phai" value="1" <?php if($phai==1) echo 'checked' ?>>Nữ
+            <input type="number" name="si_so_txt" value="<?php echo $si_so; ?>" min="1" required>
             </td>
         </tr>
         <tr>
-            <td>Địa chỉ</td>
-            <td>
-                <input type="text" name="dia_chi_txt" value="<?php echo $dia_chi; ?>" required>
-            </td>
+        <td>Khoa: </td>
+            <td align="center"><select name="ds_khoa" id="khoa">
+                    <?php
+                        $sql = "SELECT * FROM khoa ";
+                        $result = mysqli_query($conn, $sql);
+                        if(mysqli_num_rows($result) > 0)
+                        {
+                           while($row = mysqli_fetch_array($result))
+                           {
+                               $ma_khoa = $row['ma_khoa'];
+                               $ten_khoa = $row['ten_khoa'];
+                               echo '<option value="'.$ma_khoa.'"';
+                               if(isset($_REQUEST['ds_khoa']) && ($_REQUEST['ds_khoa']==$ma_khoa))
+                               {
+                                    echo 'selected="selected"';
+                               } 
+                               echo ">".$ten_khoa."</option>";
+                           } 
+                        }
+                        mysqli_free_result($result);
+                    ?>
+                    </select>
         </tr>
         <tr>
-            <td>Điện thoại</td>
-            <td>
-                <input type="text" name="dien_thoai_txt" value="<?php echo $sdt; ?>" required>
-            </td>
-        </tr>
-        <tr>
-            <td>Email</td>
-            <td>
-             <input type="text" name="email_txt" value="<?php echo $email; ?>" required>
-            </td>
+            <td>Giảng viên: </td>
+        <td align="center"><select name="ds_gv" id="gv">
+                    <?php
+                        $sql = "SELECT * FROM giangvien ";
+                        $result = mysqli_query($conn, $sql);
+                        if(mysqli_num_rows($result) > 0)
+                        {
+                           while($row = mysqli_fetch_array($result))
+                           {
+                               $ma_gv = $row['ma_gv'];
+                               $ho_gv = $row['ho_gv'];
+                               $ten_gv = $row['ten_gv'];
+                               echo '<option value="'.$ma_gv.'"';
+                               if(isset($_REQUEST['ds_gv']) && ($_REQUEST['ds_gv']==$ma_gv))
+                               {
+                                    echo 'selected="selected"';
+                               } 
+                               echo ">".$ho_gv.' '.$ten_gv."</option>";
+                           } 
+                        }
+                        mysqli_free_result($result);
+                    ?>
+                    </select>
         </tr>
         <tr>
             <td align="center" colspan="2">
@@ -91,22 +115,20 @@
     <?php
         if(isset($_POST["updateBtn"]))
         {
-            $ten_khach_hang = $_REQUEST["ten_khach_hang_txt"];
-            $phai = $_REQUEST["phai"];
-            $sdt = $_REQUEST["dien_thoai_txt"];
-            $dia_chi = $_REQUEST["dia_chi_txt"];
-            $email = $_REQUEST["email_txt"];
-            $sql_update = "UPDATE khach_hang 
-                            SET Ten_khach_hang = '".$ten_khach_hang."',
-                                Phai = ".$phai.",
-                                Dien_thoai = '".$sdt."',
-                                Dia_chi = '".$dia_chi."',
-                                Email = '".$email."'
-                            WHERE Ma_khach_hang = '".$ma_kh."'";
+            $ten_lop= $_REQUEST["ten_lop_txt"];
+            $si_so = $_REQUEST["si_so_txt"];
+            $gv = $_REQUEST["ds_gv"];
+            $khoa = $_REQUEST["ds_khoa"];
+            $sql_update = "UPDATE lop 
+                            SET ten_lop = '".$ten_lop."',
+                                si_so = ".$si_so.",
+                                ma_khoa = '".$khoa."',
+                                ma_gvcv = '".$gv."'
+                            WHERE ma_lop = '".$ma_lop."'";
             if(mysqli_query($conn, $sql_update))
             {
                 echo '<p align="center">CẬP NHẬT THÔNG TIN THÀNH CÔNG!!</p>';
-                echo '<p align="center"><a href="ex2_12_mysql.php">Quay về</a></p>';
+                echo '<p align="center"><a href="khoa.php">Quay về</a></p>';
             }
             else
                 echo '<p align="center">KHÔNG CẬP NHẬT ĐƯỢC!</p>';
